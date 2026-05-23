@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const { Pool } = require('pg');
 const Redis = require('ioredis');
-const { Resend } = require('resend');
+const brevo = require('@getbrevo/brevo');
 const { router: leadsRouter, init: initLeads } = require('./routes/leads');
 
 const app = express();
@@ -36,11 +36,12 @@ if (process.env.REDIS_URL) {
   console.warn('WARN: REDIS_URL is not set. Rate limiting will be disabled.');
 }
 
-// ── Resend ──
-if (!process.env.RESEND_API_KEY) {
-  console.warn('WARN: RESEND_API_KEY is not set. Emails will be disabled.');
+// ── Brevo ──
+if (!process.env.BREVO_API_KEY) {
+  console.warn('WARN: BREVO_API_KEY is not set. Emails will be disabled.');
 }
-const resend = new Resend(process.env.RESEND_API_KEY || 'missing');
+const emailApi = new brevo.TransactionalEmailsApi();
+emailApi.authentications['apiKey'].apiKey = process.env.BREVO_API_KEY || '';
 
 // ── Middleware ──
 app.use(express.json());
@@ -121,7 +122,7 @@ async function start() {
     }
 
     // Wire up routes
-    initLeads(db, redis, resend);
+    initLeads(db, redis, emailApi);
 
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`Care Connection USA running on port ${PORT}`);
