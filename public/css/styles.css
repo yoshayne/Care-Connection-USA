@@ -188,19 +188,21 @@ h1 .teal{color:var(--teal)}
 .sg{
   display:grid;grid-template-columns:1fr 1fr;
   gap:4px;margin-bottom:8px;
-  flex:1;min-height:0;overflow-y:auto;
+  min-height:0;
+  align-items:start;
 }
 .sc2{
   border:1.5px solid var(--border);border-radius:8px;
-  padding:4px 8px 3px 8px;cursor:pointer;
-  display:flex;align-items:flex-start;gap:7px;
+  padding:5px 8px;cursor:pointer;
+  display:flex;align-items:center;gap:7px;
   background:var(--white);transition:all .18s;
+  min-height:0;
 }
 .sc2:hover{border-color:var(--teal);background:rgba(14,122,110,0.03)}
 .sc2.sel{border-color:var(--teal);background:rgba(14,122,110,0.06)}
-.si{width:24px;height:24px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.8}
-.st h4{font-size:0.70rem;font-weight:600;color:var(--text);margin-bottom:1px;line-height:1.2}
-.st p{font-size:0.61rem;color:var(--muted);line-height:1.15}
+.si{width:20px;height:20px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.8}
+.st h4{font-size:0.70rem;font-weight:600;color:var(--text);margin-bottom:0;line-height:1.1}
+.st p{font-size:0.61rem;color:var(--muted);line-height:1.15;margin:0}
 
 .btn-next{
   width:100%;padding:8px 10px;border:none;border-radius:8px;
@@ -219,8 +221,8 @@ h1 .teal{color:var(--teal)}
 .secure svg{width:11px;height:11px;stroke:var(--muted);fill:none;stroke-width:2}
 
 /* other steps */
-.sp{display:none;flex-direction:column;flex:1}
-.sp.active{display:flex}
+.sp{display:none;flex-direction:column}
+.sp.active{display:flex;flex:1}
 .field{margin-bottom:9px}
 .field label{display:block;font-size:0.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
 .field input,.field select,.field textarea{
