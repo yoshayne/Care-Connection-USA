@@ -60,7 +60,7 @@ main{
 .hero{
   flex:1;
   display:grid;
-  grid-template-columns:240px 1fr 420px;
+  grid-template-columns:220px 1fr 420px;
   gap:0;
   padding:28px 0 0 32px;
   background:var(--cream);
@@ -85,13 +85,13 @@ main{
 .badge-txt{font-size:0.67rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold)}
 h1{
   font-family:'Playfair Display',serif;
-  font-size:2.65rem;line-height:1.1;
+  font-size:2.2rem;line-height:1.15;
   color:var(--navy);
   font-weight:700;
   margin-bottom:14px;
 }
 h1 .teal{color:var(--teal)}
-.sub{font-size:0.85rem;color:var(--muted);line-height:1.65;margin-bottom:18px;max-width:260px}
+.sub{font-size:0.85rem;color:var(--muted);line-height:1.65;margin-bottom:18px;max-width:220px}
 .trust-row{display:flex;gap:18px;margin-bottom:18px}
 .ti{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
 .ti-circle{
