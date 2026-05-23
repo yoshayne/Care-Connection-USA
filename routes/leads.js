@@ -4,12 +4,14 @@ const { requireApiKey } = require('../middleware/validate');
 
 let db;
 let redis;
-let transporter;
+let resend;
 
-function init(pgPool, redisClient, emailTransporter) {
+const FROM = 'Care Connection USA <admin@careconnectionusa.org>';
+
+function init(pgPool, redisClient, resendClient) {
   db = pgPool;
   redis = redisClient;
-  transporter = emailTransporter;
+  resend = resendClient;
 }
 
 const VALID_STATUSES = ['new', 'contacted', 'sold', 'closed'];
@@ -90,8 +92,8 @@ async function sendOwnerNotification(lead) {
     </div>
   `;
 
-  await transporter.sendMail({
-    from: `"Care Connection USA" <${process.env.SMTP_USER}>`,
+  await resend.emails.send({
+    from: FROM,
     to: process.env.OWNER_EMAIL,
     subject: `New Lead: ${lead.first_name} ${lead.last_name} — ${lead.zip_code || 'No ZIP'}`,
     html
@@ -128,8 +130,8 @@ async function sendLeadConfirmation(lead) {
     </div>
   `;
 
-  await transporter.sendMail({
-    from: `"Care Connection USA" <${process.env.SMTP_USER}>`,
+  await resend.emails.send({
+    from: FROM,
     to: lead.email,
     subject: 'We received your request — Care Connection USA',
     html

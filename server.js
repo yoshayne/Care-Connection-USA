@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const { Pool } = require('pg');
 const Redis = require('ioredis');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const { router: leadsRouter, init: initLeads } = require('./routes/leads');
 
 const app = express();
@@ -36,16 +36,11 @@ if (process.env.REDIS_URL) {
   console.warn('WARN: REDIS_URL is not set. Rate limiting will be disabled.');
 }
 
-// ── Nodemailer ──
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT, 10) || 587,
-  secure: parseInt(process.env.SMTP_PORT, 10) === 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
-});
+// ── Resend ──
+if (!process.env.RESEND_API_KEY) {
+  console.warn('WARN: RESEND_API_KEY is not set. Emails will be disabled.');
+}
+const resend = new Resend(process.env.RESEND_API_KEY || 'missing');
 
 // ── Middleware ──
 app.use(express.json());
@@ -126,7 +121,7 @@ async function start() {
     }
 
     // Wire up routes
-    initLeads(db, redis, transporter);
+    initLeads(db, redis, resend);
 
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`Care Connection USA running on port ${PORT}`);

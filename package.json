@@ -1,7 +1,7 @@
 {
-  "name": "careconnect",
+  "name": "care-connection-usa",
   "version": "1.0.0",
-  "description": "CareConnect lead generation platform",
+  "description": "Care Connection USA lead generation platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -10,8 +10,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "ioredis": "^5.3.2",
-    "nodemailer": "^6.9.13",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "resend": "^4.8.0"
   },
   "engines": {
     "node": ">=18.0.0"
