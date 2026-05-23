@@ -52,10 +52,8 @@ nav{
 
 /* ── MAIN ── */
 main{
-  display:flex;
-  flex-direction:column;
+  display:flex;flex-direction:column;
   height:calc(100vh - 68px);
-  position:relative;
 }
 
 /* ── HERO ── */
@@ -64,15 +62,9 @@ main{
   display:grid;
   grid-template-columns:300px 1fr 360px;
   gap:0;
-  /* give extra bottom padding so the trust strip can slide under the form */
   padding:28px 0 0 32px;
   background:var(--cream);
   min-height:0;
-  overflow:visible;
-  position:relative;
-  z-index:0;
-  /* push the right column down to overlap the trust strip */
-  padding-bottom:0;
 }
 
 /* LEFT */
@@ -81,10 +73,6 @@ main{
   padding-right:20px;
   padding-top:4px;
   opacity:0.82;
-  position:relative;
-  z-index:5;
-  /* stop before the trust strip */
-  padding-bottom:52px;
 }
 .badge{display:flex;align-items:center;gap:7px;margin-bottom:14px}
 .badge-circle{
@@ -125,12 +113,10 @@ h1 .teal{color:var(--teal)}
 
 /* CENTER COLLAGE */
 .center{
-  padding:0 14px 52px 14px;
+  padding:0 14px;
   display:flex;flex-direction:column;gap:6px;
   min-height:0;
   opacity:0.78;
-  position:relative;
-  z-index:5;
 }
 .col-top img,.col-bot img{
   width:100%;height:210px;
@@ -139,98 +125,85 @@ h1 .teal{color:var(--teal)}
 .col-mid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .col-mid img{width:100%;height:148px;object-fit:cover;border-radius:10px;display:block}
 
-/* ── RIGHT FORM — pops out over the trust strip ── */
+/* ── RIGHT FORM — spotlight column, pops over trust strip ── */
 .right{
-  display:flex;
-  flex-direction:column;
+  display:flex;flex-direction:column;
   min-height:0;
   background:var(--navy);
-  border-radius:14px 0 0 0;     /* only top-left rounded; flush to right edge */
-  /* extend below its grid row to overlap the trust strip */
-  margin:-28px 0 0 0;
-  padding:24px 28px 0 20px;     /* no bottom pad — card carries down */
+  border-radius:14px 0 0 0;
+  margin-top:-28px;
+  padding:24px 32px 0 20px;
   position:relative;
-  z-index:20;                   /* sit above trust strip */
-  /* push card bottom edge past the trust strip */
-  padding-bottom:0;
-  /* add a strong drop shadow so the "3D pop" reads clearly */
-  box-shadow: -12px 0 48px rgba(0,0,0,0.28), 0 -4px 24px rgba(0,0,0,0.14);
+  z-index:10;
 }
-
-/* The card itself stretches down and overlaps the trust strip */
 .form-card{
   background:var(--white);
-  border-radius:12px 12px 12px 12px;
+  border-radius:12px;
   border:none;
-  /* deeper shadow = more 3D lift */
-  box-shadow:0 40px 100px rgba(0,0,0,0.60), 0 12px 32px rgba(0,0,0,0.28);
+  box-shadow:0 32px 80px rgba(0,0,0,0.50), 0 8px 24px rgba(0,0,0,0.20);
   overflow:hidden;
   display:flex;flex-direction:column;
   flex:1;
   min-height:0;
-  /* pull the card down so it visually overlaps the trust strip */
-  margin-bottom:-52px;          /* same height as trust strip to bleed through */
-  /* subtle scale-up illusion */
-  transform:translateY(0) scale(1.012);
-  transform-origin:top center;
+  /* pull the card down to overlap the trust strip */
+  margin-bottom:-52px;
 }
-
 .fc-head{
   background:linear-gradient(135deg,#0E7A6E 0%,#12A090 100%);
-  padding:18px 22px 15px;
+  padding:16px 22px 14px;
   flex-shrink:0;
 }
 .fc-head h2{
   font-family:'Playfair Display',serif;
-  color:var(--white);font-size:1.18rem;line-height:1.25;
+  color:var(--white);font-size:1.12rem;line-height:1.25;
   text-align:center;margin-bottom:3px;
 }
-.fc-head p{color:rgba(255,255,255,0.8);font-size:0.75rem;text-align:center}
-
+.fc-head p{color:rgba(255,255,255,0.8);font-size:0.73rem;text-align:center}
 /* step tracker */
-.tracker{display:flex;align-items:center;justify-content:center;margin-top:14px;gap:0}
+.tracker{display:flex;align-items:center;justify-content:center;margin-top:12px;gap:0}
 .sd{display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;z-index:1}
 .sc{
-  width:32px;height:32px;border-radius:50%;
+  width:30px;height:30px;border-radius:50%;
   background:rgba(255,255,255,0.18);
   border:2px solid rgba(255,255,255,0.35);
   display:flex;align-items:center;justify-content:center;
-  font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.55);
+  font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.55);
   transition:.3s;
 }
 .sd.active .sc{background:var(--gold);border-color:var(--gold);color:var(--white)}
 .sd.done .sc{background:rgba(255,255,255,0.85);border-color:var(--white);color:var(--teal)}
 .sn{font-size:0.6rem;color:rgba(255,255,255,0.55);font-weight:500;white-space:nowrap}
 .sd.active .sn{color:var(--white);font-weight:600}
-.sl{flex:1;height:2px;background:rgba(255,255,255,0.22);min-width:24px;margin-bottom:14px;transition:.3s}
+.sl{flex:1;height:2px;background:rgba(255,255,255,0.22);min-width:24px;margin-bottom:12px;transition:.3s}
 .sl.done{background:rgba(255,255,255,0.65)}
 
-.fc-body{padding:16px 18px;flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.fc-body{padding:14px 18px;flex:1;overflow-y:auto;display:flex;flex-direction:column}
 .fc-body::-webkit-scrollbar{width:4px}
 .fc-body::-webkit-scrollbar-track{background:transparent}
 .fc-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.fq{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.fs{font-size:0.72rem;color:var(--muted);margin-bottom:10px}
+.fq{font-size:0.84rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.fs{font-size:0.71rem;color:var(--muted);margin-bottom:8px}
 
-/* service grid */
+/* service grid — min-height:0 lets it shrink so the button stays visible */
 .sg{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:6px;margin-bottom:12px;flex:1;
+  gap:5px;margin-bottom:10px;
+  flex:1;min-height:0;overflow-y:auto;
 }
 .sc2{
   border:1.5px solid var(--border);border-radius:8px;
-  padding:8px 8px;cursor:pointer;
-  display:flex;align-items:flex-start;gap:8px;
+  padding:7px 8px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:7px;
   background:var(--white);transition:all .18s;
 }
 .sc2:hover{border-color:var(--teal);background:rgba(14,122,110,0.03)}
 .sc2.sel{border-color:var(--teal);background:rgba(14,122,110,0.06)}
-.si{width:28px;height:28px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.8}
-.st h4{font-size:0.72rem;font-weight:600;color:var(--text);margin-bottom:1px;line-height:1.2}
-.st p{font-size:0.63rem;color:var(--muted);line-height:1.25}
+.si{width:24px;height:24px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.8}
+.st h4{font-size:0.70rem;font-weight:600;color:var(--text);margin-bottom:1px;line-height:1.2}
+.st p{font-size:0.61rem;color:var(--muted);line-height:1.25}
 
 .btn-next{
-  width:100%;padding:11px;border:none;border-radius:8px;
+  width:100%;padding:10px;border:none;border-radius:8px;
   background:var(--gold);color:var(--white);
   font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:600;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
@@ -240,7 +213,7 @@ h1 .teal{color:var(--teal)}
 .btn-next svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
 .secure{
   display:flex;align-items:center;justify-content:center;gap:4px;
-  font-size:0.67rem;color:var(--muted);margin-top:7px;flex-shrink:0;
+  font-size:0.67rem;color:var(--muted);margin-top:6px;flex-shrink:0;
 }
 .secure svg{width:11px;height:11px;stroke:var(--muted);fill:none;stroke-width:2}
 
@@ -282,29 +255,23 @@ h1 .teal{color:var(--teal)}
 .success h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text);margin-bottom:7px}
 .success p{font-size:0.8rem;color:var(--muted);line-height:1.55}
 
-/* ── TRUST STRIP — thinner, navy bg, sits behind the overlapping form ── */
+/* ── TRUST STRIP ── */
 .trust-strip{
   background:#EDF2EC;
   border-top:1px solid #D5E2D3;
-  /* thinner strip — was ~120px, now ~68px total */
-  padding:10px 32px;
+  padding:20px 32px;
   flex-shrink:0;
   position:relative;
-  z-index:1;          /* below the form card (z-index:20) */
-  height:52px;        /* fixed slim height */
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  overflow:hidden;    /* clip the form's bleed-down from below */
+  z-index:1;
 }
 .ts-title{
-  text-align:center;font-size:0.78rem;font-weight:600;color:var(--text);
+  text-align:center;font-size:0.88rem;font-weight:600;color:var(--text);
   display:flex;align-items:center;gap:14px;justify-content:center;
-  margin-bottom:8px;
+  margin-bottom:16px;
 }
 .ts-title::before,.ts-title::after{content:'';flex:1;height:1px;background:#C8D9C6;max-width:100px}
-.ts-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.tc{display:flex;align-items:center;gap:8px}
-.tc svg{width:22px;height:22px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.7}
-.tc-txt h4{font-size:0.72rem;font-weight:600;color:var(--text);margin-bottom:0;line-height:1.2}
-.tc-txt p{display:none} /* hide the sub-text in the slim strip */
+.ts-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tc{display:flex;align-items:flex-start;gap:10px}
+.tc svg{width:32px;height:32px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.7}
+.tc-txt h4{font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.tc-txt p{font-size:0.72rem;color:var(--muted);line-height:1.4}
