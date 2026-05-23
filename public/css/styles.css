@@ -31,7 +31,7 @@ nav{
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
 .logo-svg{width:42px;height:42px}
 .logo-txt{line-height:1.15}
-.logo-brand{font-size:1.18rem;font-weight:700;letter-spacing:-0.2px;line-height:1}
+.logo-brand{font-size:1.0rem;font-weight:700;letter-spacing:-0.2px;line-height:1;white-space:nowrap}
 .logo-brand .c1{color:var(--navy)}
 .logo-brand .c2{color:var(--teal)}
 .logo-tag{font-size:0.65rem;color:var(--muted);font-weight:400;margin-top:1px}

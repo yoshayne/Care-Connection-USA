@@ -129,7 +129,7 @@ async function start() {
     initLeads(db, redis, transporter);
 
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`CareConnect running on port ${PORT}`);
+      console.log(`Care Connection USA running on port ${PORT}`);
     });
   } catch (err) {
     console.error('Startup error:', err.message);

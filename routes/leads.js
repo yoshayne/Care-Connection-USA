@@ -91,7 +91,7 @@ async function sendOwnerNotification(lead) {
   `;
 
   await transporter.sendMail({
-    from: `"CareConnect" <${process.env.SMTP_USER}>`,
+    from: `"Care Connection USA" <${process.env.SMTP_USER}>`,
     to: process.env.OWNER_EMAIL,
     subject: `New Lead: ${lead.first_name} ${lead.last_name} — ${lead.zip_code || 'No ZIP'}`,
     html
@@ -108,7 +108,7 @@ async function sendLeadConfirmation(lead) {
       </div>
       <h2 style="color:#13253F;text-align:center;margin-bottom:8px">We received your request!</h2>
       <p style="color:#6B7280;text-align:center;font-size:15px;margin-bottom:24px">
-        Hi ${lead.first_name}, a local CareConnect advisor will reach out to you within <strong style="color:#0E7A6E">2 hours</strong> to discuss your care options.
+        Hi ${lead.first_name}, a local Care Connection USA advisor will reach out to you within <strong style="color:#0E7A6E">2 hours</strong> to discuss your care options.
       </p>
       <div style="background:#FAF8F3;border:1px solid #E5E7EB;border-radius:10px;padding:20px;margin-bottom:24px">
         <h3 style="color:#13253F;font-size:15px;margin-bottom:12px">What happens next?</h3>
@@ -123,15 +123,15 @@ async function sendLeadConfirmation(lead) {
       </p>
       <hr style="border:none;border-top:1px solid #E5E7EB;margin:24px 0">
       <p style="color:#9CA3AF;font-size:12px;text-align:center">
-        CareConnect — Compassionate care. Right where you are.
+        Care Connection USA — careconnectionusa.org
       </p>
     </div>
   `;
 
   await transporter.sendMail({
-    from: `"CareConnect" <${process.env.SMTP_USER}>`,
+    from: `"Care Connection USA" <${process.env.SMTP_USER}>`,
     to: lead.email,
-    subject: 'We received your request — CareConnect',
+    subject: 'We received your request — Care Connection USA',
     html
   });
 }
