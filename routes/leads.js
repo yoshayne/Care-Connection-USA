@@ -41,53 +41,59 @@ function isValidEmail(email) {
 async function sendOwnerNotification(lead) {
   const servicesText = Array.isArray(lead.services) && lead.services.length
     ? lead.services.join(', ')
-    : 'None selected';
+    : '—';
 
   const html = `
-    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
-      <h2 style="color:#13253F;border-bottom:2px solid #0E7A6E;padding-bottom:10px">
-        New Lead: ${lead.first_name} ${lead.last_name}
-      </h2>
-      <table style="width:100%;border-collapse:collapse;margin-top:16px">
+    <div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;padding:28px 20px">
+      <div style="border-bottom:3px solid #0E7A6E;padding-bottom:14px;margin-bottom:24px">
+        <p style="margin:0 0 4px;font-size:13px;color:#6B7280;text-transform:uppercase;letter-spacing:.06em">CareConnectionUSA.org — New Submission</p>
+        <h2 style="margin:0;color:#13253F;font-size:22px">A new lead has been submitted through CareConnectionUSA.org.</h2>
+      </div>
+
+      <h3 style="color:#13253F;font-size:15px;margin:0 0 12px">Lead Information:</h3>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:28px">
         <tr style="background:#f9f9f9">
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280;width:140px">Name</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.first_name} ${lead.last_name}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;width:200px;font-size:14px">Name</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${lead.first_name} ${lead.last_name}</td>
         </tr>
         <tr>
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">Email</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.email}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;font-size:14px">Email</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${lead.email}</td>
         </tr>
         <tr style="background:#f9f9f9">
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">Phone</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.phone}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;font-size:14px">Phone</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${lead.phone}</td>
         </tr>
         <tr>
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">ZIP Code</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.zip_code || '—'}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;font-size:14px">Location</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${lead.zip_code || '—'}</td>
         </tr>
         <tr style="background:#f9f9f9">
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">Timeline</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.timeline || '—'}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;font-size:14px">Care Need / Service Requested</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${servicesText}</td>
         </tr>
         <tr>
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">Services</td>
-          <td style="padding:10px 14px;color:#1E293B">${servicesText}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;font-size:14px">Additional Notes</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${lead.notes || '—'}</td>
         </tr>
         <tr style="background:#f9f9f9">
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">Notes</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.notes || '—'}</td>
-        </tr>
-        <tr>
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">Submitted</td>
-          <td style="padding:10px 14px;color:#1E293B">${new Date(lead.created_at).toLocaleString()}</td>
-        </tr>
-        <tr style="background:#f9f9f9">
-          <td style="padding:10px 14px;font-weight:600;color:#6B7280">IP Address</td>
-          <td style="padding:10px 14px;color:#1E293B">${lead.ip_address || '—'}</td>
+          <td style="padding:10px 14px;font-weight:600;color:#6B7280;font-size:14px">Submission Date</td>
+          <td style="padding:10px 14px;color:#1E293B;font-size:14px">${new Date(lead.created_at).toLocaleString()}</td>
         </tr>
       </table>
-      <p style="margin-top:20px;padding:12px;background:#EDF2EC;border-left:4px solid #0E7A6E;color:#13253F;font-size:14px">
-        Follow up within 2 hours to maximize conversion.
+
+      <div style="background:#EDF2EC;border-left:4px solid #0E7A6E;padding:16px 18px;margin-bottom:20px;border-radius:0 6px 6px 0">
+        <p style="margin:0 0 8px;font-weight:700;color:#13253F;font-size:14px">Action Needed:</p>
+        <ul style="margin:0;padding-left:18px;color:#374151;font-size:14px;line-height:2">
+          <li>Review lead information</li>
+          <li>Prepare lead sheet for internal records</li>
+          <li>Forward to qualified agencies/providers based on care needs</li>
+          <li>Track follow-up status</li>
+        </ul>
+      </div>
+
+      <p style="margin:0;font-size:12px;color:#9CA3AF;text-align:center">
+        Submitted via: CareConnectionUSA.org Website Lead Form
       </p>
     </div>
   `;
@@ -102,30 +108,43 @@ async function sendOwnerNotification(lead) {
 
 async function sendLeadConfirmation(lead) {
   const html = `
-    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
-      <div style="text-align:center;margin-bottom:24px">
-        <div style="display:inline-block;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#0E7A6E,#12A090);text-align:center;line-height:56px">
-          <span style="color:#fff;font-size:24px">✓</span>
-        </div>
+    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:28px 20px">
+      <div style="text-align:center;margin-bottom:28px">
+        <p style="margin:0;font-size:13px;color:#6B7280;text-transform:uppercase;letter-spacing:.06em">CareConnectionUSA.org</p>
+        <p style="margin:6px 0 0;font-size:13px;color:#0E7A6E;font-style:italic">Connecting You to the Care You Need</p>
       </div>
-      <h2 style="color:#13253F;text-align:center;margin-bottom:8px">We received your request!</h2>
-      <p style="color:#6B7280;text-align:center;font-size:15px;margin-bottom:24px">
-        Hi ${lead.first_name}, a local Care Connection USA advisor will reach out to you within <strong style="color:#0E7A6E">2 hours</strong> to discuss your care options.
+
+      <p style="color:#1E293B;font-size:15px;margin:0 0 16px">Dear ${lead.first_name},</p>
+
+      <p style="color:#1E293B;font-size:15px;line-height:1.7;margin:0 0 16px">
+        Thank you for reaching out to CareConnectionUSA.org.
       </p>
-      <div style="background:#FAF8F3;border:1px solid #E5E7EB;border-radius:10px;padding:20px;margin-bottom:24px">
-        <h3 style="color:#13253F;font-size:15px;margin-bottom:12px">What happens next?</h3>
-        <ol style="color:#6B7280;font-size:14px;line-height:1.8;padding-left:18px">
-          <li>A local advisor reviews your request</li>
-          <li>We match you with vetted providers in your area</li>
-          <li>You receive personalized care options at no cost to you</li>
-        </ol>
-      </div>
-      <p style="color:#6B7280;font-size:13px;text-align:center">
-        Questions? Call us at <a href="tel:8661234567" style="color:#0E7A6E;font-weight:600">(866) 123-4567</a>
+
+      <p style="color:#1E293B;font-size:15px;line-height:1.7;margin:0 0 16px">
+        We have received your information and appreciate the opportunity to assist you. Our team will review your submission and forward your information to the agencies and providers best qualified to meet your specific needs.
       </p>
-      <hr style="border:none;border-top:1px solid #E5E7EB;margin:24px 0">
-      <p style="color:#9CA3AF;font-size:12px;text-align:center">
-        Care Connection USA — careconnectionusa.org
+
+      <p style="color:#1E293B;font-size:15px;line-height:1.7;margin:0 0 16px">
+        A representative from one of the preferred agencies may be contacting you shortly to discuss your situation in more detail and help guide you through the next steps.
+      </p>
+
+      <p style="color:#1E293B;font-size:15px;line-height:1.7;margin:0 0 16px">
+        We understand that finding the right care and support is important, and we are committed to helping connect you with the resources that best fit your needs.
+      </p>
+
+      <p style="color:#1E293B;font-size:15px;line-height:1.7;margin:0 0 28px">
+        If you have any immediate questions, please feel free to reply to this email.
+      </p>
+
+      <p style="color:#1E293B;font-size:15px;margin:0 0 4px">Thank you again for trusting CareConnectionUSA.org.</p>
+
+      <p style="color:#1E293B;font-size:15px;margin:0 0 4px">Sincerely,</p>
+      <p style="color:#13253F;font-size:15px;font-weight:700;margin:0 0 2px">CareConnectionUSA.org</p>
+      <p style="color:#0E7A6E;font-size:14px;font-style:italic;margin:0">Connecting You to the Care You Need</p>
+
+      <hr style="border:none;border-top:1px solid #E5E7EB;margin:28px 0 16px">
+      <p style="color:#9CA3AF;font-size:12px;text-align:center;margin:0">
+        CareConnectionUSA.org
       </p>
     </div>
   `;
@@ -133,7 +152,7 @@ async function sendLeadConfirmation(lead) {
   await brevoClient.transactionalEmails.sendTransacEmail({
     sender: SENDER,
     to: [{ email: lead.email }],
-    subject: 'We received your request — Care Connection USA',
+    subject: 'Thank you for reaching out — CareConnectionUSA.org',
     htmlContent: html
   });
 }
