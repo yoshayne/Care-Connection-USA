@@ -150,7 +150,7 @@ h1 .teal{color:var(--teal)}
 }
 .fc-head{
   background:linear-gradient(135deg,#0E7A6E 0%,#12A090 100%);
-  padding:16px 22px 14px;
+  padding:12px 22px 10px;
   flex-shrink:0;
 }
 .fc-head h2{
@@ -177,22 +177,22 @@ h1 .teal{color:var(--teal)}
 .sl{flex:1;height:2px;background:rgba(255,255,255,0.22);min-width:24px;margin-bottom:12px;transition:.3s}
 .sl.done{background:rgba(255,255,255,0.65)}
 
-.fc-body{padding:14px 18px;flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.fc-body{padding:10px 18px;flex:1;overflow-y:auto;display:flex;flex-direction:column}
 .fc-body::-webkit-scrollbar{width:4px}
 .fc-body::-webkit-scrollbar-track{background:transparent}
 .fc-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.fq{font-size:0.84rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.fs{font-size:0.71rem;color:var(--muted);margin-bottom:8px}
+.fq{font-size:0.84rem;font-weight:600;color:var(--text);margin-bottom:1px}
+.fs{font-size:0.71rem;color:var(--muted);margin-bottom:5px}
 
 /* service grid — min-height:0 lets it shrink so the button stays visible */
 .sg{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:5px;margin-bottom:10px;
+  gap:4px;margin-bottom:8px;
   flex:1;min-height:0;overflow-y:auto;
 }
 .sc2{
   border:1.5px solid var(--border);border-radius:8px;
-  padding:6px 8px;cursor:pointer;
+  padding:4px 8px 3px 8px;cursor:pointer;
   display:flex;align-items:flex-start;gap:7px;
   background:var(--white);transition:all .18s;
 }
@@ -200,7 +200,7 @@ h1 .teal{color:var(--teal)}
 .sc2.sel{border-color:var(--teal);background:rgba(14,122,110,0.06)}
 .si{width:24px;height:24px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.8}
 .st h4{font-size:0.70rem;font-weight:600;color:var(--text);margin-bottom:1px;line-height:1.2}
-.st p{font-size:0.61rem;color:var(--muted);line-height:1.25}
+.st p{font-size:0.61rem;color:var(--muted);line-height:1.15}
 
 .btn-next{
   width:100%;padding:8px 10px;border:none;border-radius:8px;
