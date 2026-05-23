@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const brevo = require('@getbrevo/brevo');
 const { requireApiKey } = require('../middleware/validate');
 
 let db;
 let redis;
-let emailApi;
+let brevoClient;
 
 const SENDER = { name: 'Care Connection USA', email: 'admin@careconnectionusa.org' };
 
-function init(pgPool, redisClient, brevoEmailApi) {
+function init(pgPool, redisClient, brevo) {
   db = pgPool;
   redis = redisClient;
-  emailApi = brevoEmailApi;
+  brevoClient = brevo;
 }
 
 const VALID_STATUSES = ['new', 'contacted', 'sold', 'closed'];
@@ -93,12 +92,12 @@ async function sendOwnerNotification(lead) {
     </div>
   `;
 
-  const ownerEmail = new brevo.SendSmtpEmail();
-  ownerEmail.sender = SENDER;
-  ownerEmail.to = [{ email: process.env.OWNER_EMAIL }];
-  ownerEmail.subject = `New Lead: ${lead.first_name} ${lead.last_name} — ${lead.zip_code || 'No ZIP'}`;
-  ownerEmail.htmlContent = html;
-  await emailApi.sendTransacEmail(ownerEmail);
+  await brevoClient.transactionalEmails.sendTransacEmail({
+    sender: SENDER,
+    to: [{ email: process.env.OWNER_EMAIL }],
+    subject: `New Lead: ${lead.first_name} ${lead.last_name} — ${lead.zip_code || 'No ZIP'}`,
+    htmlContent: html
+  });
 }
 
 async function sendLeadConfirmation(lead) {
@@ -131,12 +130,12 @@ async function sendLeadConfirmation(lead) {
     </div>
   `;
 
-  const confirmEmail = new brevo.SendSmtpEmail();
-  confirmEmail.sender = SENDER;
-  confirmEmail.to = [{ email: lead.email }];
-  confirmEmail.subject = 'We received your request — Care Connection USA';
-  confirmEmail.htmlContent = html;
-  await emailApi.sendTransacEmail(confirmEmail);
+  await brevoClient.transactionalEmails.sendTransacEmail({
+    sender: SENDER,
+    to: [{ email: lead.email }],
+    subject: 'We received your request — Care Connection USA',
+    htmlContent: html
+  });
 }
 
 // POST /api/leads
