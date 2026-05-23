@@ -65,6 +65,9 @@ main{
   padding:28px 32px 0;
   background:var(--cream);
   min-height:0;
+  overflow:visible;
+  position:relative;
+  z-index:0;
 }
 
 /* LEFT */
@@ -73,6 +76,8 @@ main{
   padding-right:20px;
   padding-top:4px;
   opacity:0.82;
+  position:relative;
+  z-index:5;
 }
 .badge{display:flex;align-items:center;gap:7px;margin-bottom:14px}
 .badge-circle{
@@ -117,6 +122,8 @@ h1 .teal{color:var(--teal)}
   display:flex;flex-direction:column;gap:6px;
   min-height:0;
   opacity:0.78;
+  position:relative;
+  z-index:5;
 }
 .col-top img,.col-bot img{
   width:100%;height:210px;
@@ -132,13 +139,15 @@ h1 .teal{color:var(--teal)}
   background:var(--navy);
   border-radius:14px 14px 0 0;
   margin:-28px -32px 0 0;
-  padding:24px 28px 0 20px;
+  padding:24px 28px 16px 20px;
+  position:relative;
+  z-index:10;
 }
 .form-card{
   background:var(--white);
   border-radius:12px;
   border:none;
-  box-shadow:0 16px 48px rgba(0,0,0,0.38), 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow:0 32px 80px rgba(0,0,0,0.52), 0 8px 24px rgba(0,0,0,0.22);
   overflow:hidden;
   display:flex;flex-direction:column;
   flex:1;
@@ -256,6 +265,10 @@ h1 .teal{color:var(--teal)}
   border-top:1px solid #D5E2D3;
   padding:20px 32px;
   flex-shrink:0;
+  position:relative;
+  z-index:1;
+  margin-top:-44px;
+  padding-top:64px;
 }
 .ts-title{
   text-align:center;font-size:0.88rem;font-weight:600;color:var(--text);
