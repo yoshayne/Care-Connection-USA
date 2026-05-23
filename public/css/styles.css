@@ -16,7 +16,7 @@ html,body{
   font-family:'DM Sans',sans-serif;
   background:var(--cream);
   color:var(--text);
-  overflow:hidden; /* single screen */
+  overflow:hidden;
 }
 
 /* ── NAV ── */
@@ -52,8 +52,10 @@ nav{
 
 /* ── MAIN ── */
 main{
-  display:flex;flex-direction:column;
+  display:flex;
+  flex-direction:column;
   height:calc(100vh - 68px);
+  position:relative;
 }
 
 /* ── HERO ── */
@@ -62,12 +64,15 @@ main{
   display:grid;
   grid-template-columns:300px 1fr 360px;
   gap:0;
-  padding:28px 32px 0;
+  /* give extra bottom padding so the trust strip can slide under the form */
+  padding:28px 0 0 32px;
   background:var(--cream);
   min-height:0;
   overflow:visible;
   position:relative;
   z-index:0;
+  /* push the right column down to overlap the trust strip */
+  padding-bottom:0;
 }
 
 /* LEFT */
@@ -78,6 +83,8 @@ main{
   opacity:0.82;
   position:relative;
   z-index:5;
+  /* stop before the trust strip */
+  padding-bottom:52px;
 }
 .badge{display:flex;align-items:center;gap:7px;margin-bottom:14px}
 .badge-circle{
@@ -118,7 +125,7 @@ h1 .teal{color:var(--teal)}
 
 /* CENTER COLLAGE */
 .center{
-  padding:0 14px 0 14px;
+  padding:0 14px 52px 14px;
   display:flex;flex-direction:column;gap:6px;
   min-height:0;
   opacity:0.78;
@@ -132,27 +139,42 @@ h1 .teal{color:var(--teal)}
 .col-mid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .col-mid img{width:100%;height:148px;object-fit:cover;border-radius:10px;display:block}
 
-/* RIGHT FORM — spotlight column */
+/* ── RIGHT FORM — pops out over the trust strip ── */
 .right{
-  display:flex;flex-direction:column;
+  display:flex;
+  flex-direction:column;
   min-height:0;
   background:var(--navy);
-  border-radius:14px 14px 0 0;
-  margin:-28px -32px 0 0;
-  padding:24px 28px 16px 20px;
+  border-radius:14px 0 0 0;     /* only top-left rounded; flush to right edge */
+  /* extend below its grid row to overlap the trust strip */
+  margin:-28px 0 0 0;
+  padding:24px 28px 0 20px;     /* no bottom pad — card carries down */
   position:relative;
-  z-index:10;
+  z-index:20;                   /* sit above trust strip */
+  /* push card bottom edge past the trust strip */
+  padding-bottom:0;
+  /* add a strong drop shadow so the "3D pop" reads clearly */
+  box-shadow: -12px 0 48px rgba(0,0,0,0.28), 0 -4px 24px rgba(0,0,0,0.14);
 }
+
+/* The card itself stretches down and overlaps the trust strip */
 .form-card{
   background:var(--white);
-  border-radius:12px;
+  border-radius:12px 12px 12px 12px;
   border:none;
-  box-shadow:0 32px 80px rgba(0,0,0,0.52), 0 8px 24px rgba(0,0,0,0.22);
+  /* deeper shadow = more 3D lift */
+  box-shadow:0 40px 100px rgba(0,0,0,0.60), 0 12px 32px rgba(0,0,0,0.28);
   overflow:hidden;
   display:flex;flex-direction:column;
   flex:1;
   min-height:0;
+  /* pull the card down so it visually overlaps the trust strip */
+  margin-bottom:-52px;          /* same height as trust strip to bleed through */
+  /* subtle scale-up illusion */
+  transform:translateY(0) scale(1.012);
+  transform-origin:top center;
 }
+
 .fc-head{
   background:linear-gradient(135deg,#0E7A6E 0%,#12A090 100%);
   padding:18px 22px 15px;
@@ -164,6 +186,7 @@ h1 .teal{color:var(--teal)}
   text-align:center;margin-bottom:3px;
 }
 .fc-head p{color:rgba(255,255,255,0.8);font-size:0.75rem;text-align:center}
+
 /* step tracker */
 .tracker{display:flex;align-items:center;justify-content:center;margin-top:14px;gap:0}
 .sd{display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;z-index:1}
@@ -259,25 +282,29 @@ h1 .teal{color:var(--teal)}
 .success h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text);margin-bottom:7px}
 .success p{font-size:0.8rem;color:var(--muted);line-height:1.55}
 
-/* ── TRUST STRIP ── */
+/* ── TRUST STRIP — thinner, navy bg, sits behind the overlapping form ── */
 .trust-strip{
   background:#EDF2EC;
   border-top:1px solid #D5E2D3;
-  padding:20px 32px;
+  /* thinner strip — was ~120px, now ~68px total */
+  padding:10px 32px;
   flex-shrink:0;
   position:relative;
-  z-index:1;
-  margin-top:-44px;
-  padding-top:64px;
+  z-index:1;          /* below the form card (z-index:20) */
+  height:52px;        /* fixed slim height */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  overflow:hidden;    /* clip the form's bleed-down from below */
 }
 .ts-title{
-  text-align:center;font-size:0.88rem;font-weight:600;color:var(--text);
+  text-align:center;font-size:0.78rem;font-weight:600;color:var(--text);
   display:flex;align-items:center;gap:14px;justify-content:center;
-  margin-bottom:16px;
+  margin-bottom:8px;
 }
 .ts-title::before,.ts-title::after{content:'';flex:1;height:1px;background:#C8D9C6;max-width:100px}
-.ts-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.tc{display:flex;align-items:flex-start;gap:10px}
-.tc svg{width:32px;height:32px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.7}
-.tc-txt h4{font-size:0.8rem;font-weight:600;color:var(--text);margin-bottom:2px}
-.tc-txt p{font-size:0.72rem;color:var(--muted);line-height:1.4}
+.ts-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tc{display:flex;align-items:center;gap:8px}
+.tc svg{width:22px;height:22px;flex-shrink:0;stroke:var(--teal);fill:none;stroke-width:1.7}
+.tc-txt h4{font-size:0.72rem;font-weight:600;color:var(--text);margin-bottom:0;line-height:1.2}
+.tc-txt p{display:none} /* hide the sub-text in the slim strip */
