@@ -11,20 +11,30 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── PostgreSQL ──
+if (!process.env.DATABASE_URL) {
+  console.error('ERROR: DATABASE_URL is not set. In Railway: open your service → Variables → add DATABASE_URL referencing your Postgres plugin (${{Postgres.DATABASE_URL}}).');
+  process.exit(1);
+}
+
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: { rejectUnauthorized: false }
 });
 
 // ── Redis ──
-const redis = new Redis(process.env.REDIS_URL, {
-  maxRetriesPerRequest: 3,
-  lazyConnect: true
-});
-
-redis.on('error', err => {
-  console.error('Redis error:', err.message);
-});
+let redis = null;
+if (process.env.REDIS_URL) {
+  redis = new Redis(process.env.REDIS_URL, {
+    maxRetriesPerRequest: 3,
+    lazyConnect: true,
+    enableReadyCheck: false
+  });
+  redis.on('error', err => {
+    console.error('Redis error:', err.message);
+  });
+} else {
+  console.warn('WARN: REDIS_URL is not set. Rate limiting will be disabled.');
+}
 
 // ── Nodemailer ──
 const transporter = nodemailer.createTransport({
@@ -70,11 +80,31 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, error: 'Internal server error' });
 });
 
+// ── Retry helper ──
+async function retry(fn, label, attempts, delayMs) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      await fn();
+      return;
+    } catch (err) {
+      if (i === attempts) throw err;
+      console.error(`${label} attempt ${i}/${attempts} failed: ${err.message}. Retrying in ${delayMs}ms...`);
+      await new Promise(r => setTimeout(r, delayMs));
+      delayMs *= 2;
+    }
+  }
+}
+
 // ── Startup ──
 async function start() {
   try {
-    // Connect to PostgreSQL and run schema
-    await db.query('SELECT 1');
+    // Connect to PostgreSQL with retry (Railway DB may not be ready immediately)
+    await retry(
+      () => db.query('SELECT 1'),
+      'PostgreSQL',
+      6,
+      2000
+    );
     console.log('PostgreSQL connected');
 
     const schema = require('fs').readFileSync(
@@ -84,14 +114,21 @@ async function start() {
     await db.query(schema);
     console.log('Database schema ready');
 
-    // Connect to Redis
-    await redis.connect();
-    console.log('Redis connected');
+    // Connect to Redis (optional — failures just disable rate limiting)
+    if (redis) {
+      try {
+        await redis.connect();
+        console.log('Redis connected');
+      } catch (err) {
+        console.error('Redis connection failed (rate limiting disabled):', err.message);
+        redis = null;
+      }
+    }
 
     // Wire up routes
     initLeads(db, redis, transporter);
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`CareConnect running on port ${PORT}`);
     });
   } catch (err) {
